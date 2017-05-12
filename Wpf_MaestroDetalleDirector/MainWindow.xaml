@@ -1,0 +1,63 @@
+﻿<Window x:Class="Wpf_MaestroDetalleDirector.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525"
+        xmlns:ejemplo="clr-namespace:NHJ.Wpf_EnlaceDatosClaseFilm"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:convert="clr-namespace:Wpf_MaestroDetalleDirector">
+    <Window.Resources>
+        <ejemplo:Director x:Key="Spielberg" Nombre="Steven Spielber" nacionalidad="USA">
+            <ejemplo:Director.Filmes>
+                <!-- Primer FILM-->
+                <ejemplo:Film Titulo="Jurassic Park" Genero="Aventuras" Oscar="True" Calificacion="2.2">
+                    <ejemplo:Film.Actores>
+                        <system:String>Sam Neil</system:String>
+                        <system:String>Laura Linney</system:String>
+                        <system:String>Jeff Goldblum</system:String>
+                        <system:String>Richard</system:String>
+                        <system:String>Daniel Casado</system:String>
+                    </ejemplo:Film.Actores>
+                </ejemplo:Film>
+                <!-- Segundo FILM-->
+                <ejemplo:Film Titulo="La lista de Schindler" Genero="Drama" Oscar="True" Calificacion="4.5">
+                    <ejemplo:Film.Actores>
+                        <system:String>Liam Nesson</system:String>
+                        <system:String>Ben Kinsley</system:String>
+                        <system:String>Ralph Fiennes</system:String>
+                        <system:String>Richard</system:String>
+                        <system:String>Elena Guzman</system:String>
+                    </ejemplo:Film.Actores>
+                </ejemplo:Film>
+                <!-- Tercer FILM-->
+                <ejemplo:Film Titulo="Tiburón" Genero="CienciaFiccion" Oscar="True" Calificacion="4.5">
+                    <ejemplo:Film.Actores>
+                        <system:String>Tiburón - Actor 1</system:String>
+                        <system:String>Tiburón - Actor 2</system:String>
+                        <system:String>Tiburón - Actor 3</system:String>
+                    </ejemplo:Film.Actores>
+                </ejemplo:Film>
+            </ejemplo:Director.Filmes>
+        </ejemplo:Director>
+        <convert:ConvertirCalificacion x:Key="convertirCalificacion">
+            
+        </convert:ConvertirCalificacion>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource Spielberg}">
+        <StackPanel  Margin="4" Orientation="Horizontal" >
+            <TextBlock FontSize="14" FontWeight="Bold">Lista Filmes</TextBlock>
+            <ListBox Name="lbFilmes" ItemsSource="{Binding Filmes}" SelectedIndex="0"/> <!--Dentro de Spielberg-->
+            <Canvas DataContext="{Binding SelectedItem, ElementName=lbFilmes}" Width="240" Background="#FF2FBFA5">
+                <!-- Nombre de los campos -->
+                <TextBlock Text="Género:"/>
+                <TextBlock Text="Oscar?:" Canvas.Top="22"/>
+                <TextBlock Text="Calificación:" Canvas.Top="44"/>
+                <TextBlock Text="Actores:" Canvas.Top="66"/>
+                <!-- Valores de los datos enlazados para el detalle-->
+                <TextBlock Text="{Binding Genero}" Canvas.Top="0" Canvas.Right="100" FontSize="14" FontWeight="Bold"/>
+                <TextBlock Text="{Binding Oscar}" Canvas.Top="22" Canvas.Right="100" FontSize="14" FontWeight="Bold"/>
+                <TextBlock Text="{Binding Calificacion, Converter={StaticResource convertirCalificacion}}" Canvas.Top="44" Canvas.Right="100" FontSize="14" FontWeight="Bold"/>
+                <ComboBox ItemsSource="{Binding Actores}" SelectedItem="lbFilmes" Canvas.Top="66" Canvas.Right="0" FontSize="14" FontWeight="Bold" Width="150" SelectedIndex="0"/>
+            </Canvas>
+        </StackPanel>
+    </Grid>
+</Window>
